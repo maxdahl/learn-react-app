@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import DataAPI from '../api/DataApi';
+import React, { Component } from "react";
+import DataAPI from "../api/DataApi";
 
 /**
  *🏆
@@ -14,56 +14,60 @@ import DataAPI from '../api/DataApi';
  * some of the React lifecycle methods
  */
 class CompanyProfile extends Component {
-    constructor(props) {
-        super(props);
-        /**
-         * We have initialized the state with companyProfileInformation
-         */
-        this.state = {
-            companyProfileInfo: {}
-        }
-    }
-
+  constructor(props) {
+    super(props);
     /**
-     * ✏️ 
-     * We need to use componentDidMount lifecycle method to fetch company profile
-     * information for given stock ticker using the DataAPI provided
-     * 🧭  Add lifecycle method called componentDidMount
-     * 🧭  Inside that method you need to use the DataAPI that's already imported.
-     *     Make a call to `getCompanyProfile()` method and pass the `stockTicker` from the props.
-     *     This method will return a promise that resolves into `companyProfile` info
-     * 🧭  Using the data from the promise use `setState` to set companyProfileInfo
-     *    like - `this.setState({ companyProfileInfo: data })`
-     * 🧭  What if the promise resolves into an error? You might want to catch the error
-     *     and do something with it (Remember .catch in Promise). For example below I'm
-     *     catching an error and just logging it in console. You can do the same for the
-     *     sake of this exercise:
-     *          Api.getData()
-     *             .then(data => doSth(data))
-     *             .catch(error => console.log(error))
-     * */
-    componentDidMount() {
+     * We have initialized the state with companyProfileInformation
+     */
+    this.state = {
+      companyProfileInfo: {},
+    };
+  }
 
-    }
+  /**
+   * ✏️
+   * We need to use componentDidMount lifecycle method to fetch company profile
+   * information for given stock ticker using the DataAPI provided
+   * 🧭  Add lifecycle method called componentDidMount
+   * 🧭  Inside that method you need to use the DataAPI that's already imported.
+   *     Make a call to `getCompanyProfile()` method and pass the `stockTicker` from the props.
+   *     This method will return a promise that resolves into `companyProfile` info
+   * 🧭  Using the data from the promise use `setState` to set companyProfileInfo
+   *    like - `this.setState({ companyProfileInfo: data })`
+   * 🧭  What if the promise resolves into an error? You might want to catch the error
+   *     and do something with it (Remember .catch in Promise). For example below I'm
+   *     catching an error and just logging it in console. You can do the same for the
+   *     sake of this exercise:
+   *          Api.getData()
+   *             .then(data => doSth(data))
+   *             .catch(error => console.log(error))
+   * */
+  async componentDidMount() {
+    const companyProfileInfo = await DataAPI.getCompanyProfile(
+      this.props.stockTicker
+    );
+    this.setState({ companyProfileInfo });
+  }
 
-    render() {
-        const stockTicker = this.props.stockTicker;
-        const companyProfileInfo = this.state.companyProfileInfo;
-        return (
-            <div>
-                <div>Profile of: {stockTicker}</div>
-                <hr />
-                <div>
-                    {
-                        Object.keys(companyProfileInfo)
-                            .map((info, index) => {
-                                return <div key={index}>{info.toUpperCase()} : {companyProfileInfo[info]}</div>
-                            })
-                    }
-                </div>
-            </div>
-        );
-    }
+  render() {
+    const stockTicker = this.props.stockTicker;
+    const companyProfileInfo = this.state.companyProfileInfo;
+    return (
+      <div>
+        <div>Profile of: {stockTicker}</div>
+        <hr />
+        <div>
+          {Object.keys(companyProfileInfo).map((info, index) => {
+            return (
+              <div key={index}>
+                {info.toUpperCase()} : {companyProfileInfo[info]}
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    );
+  }
 }
 
 /**
@@ -72,7 +76,7 @@ class CompanyProfile extends Component {
  * the output of this code is displayed on the browser
  */
 const Usage = (props) => {
-    return <CompanyProfile stockTicker={'AMZ'} />
-}
+  return <CompanyProfile stockTicker={"AMZ"} />;
+};
 
 export default Usage;
